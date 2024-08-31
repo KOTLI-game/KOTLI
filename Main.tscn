@@ -1,7 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://ona2mbdyx4fh"]
+[gd_scene load_steps=10 format=3 uid="uid://ona2mbdyx4fh"]
 
 [ext_resource type="Script" path="res://Movement.gd" id="1_bbqy7"]
 [ext_resource type="Texture2D" uid="uid://b4dp3x4fa3nd4" path="res://grass.jpg" id="1_chb6s"]
+[ext_resource type="Script" path="res://pause_menu.gd" id="3_wc42c"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_fl3dy"]
 size = Vector3(60, 2, 60)
@@ -37,17 +38,39 @@ mesh = SubResource("BoxMesh_yrnpi")
 transform = Transform3D(1, 0, 0, 0, 0.980543, 0.196306, 0, -0.196306, 0.980543, 0, 7.21687, 0)
 shadow_enabled = true
 
-[node name="CharacterBody3D" type="CharacterBody3D" parent="."]
+[node name="Player" type="CharacterBody3D" parent="."]
 physics_interpolation_mode = 1
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 script = ExtResource("1_bbqy7")
 
-[node name="Camera3D" type="Camera3D" parent="CharacterBody3D"]
+[node name="Camera3D" type="Camera3D" parent="Player"]
 transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 2.255, 3.165)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
 shape = SubResource("BoxShape3D_xsarf")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="CharacterBody3D"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Player"]
 gi_mode = 2
 mesh = SubResource("BoxMesh_84e1o")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+visible = false
+offset_left = 1028.0
+offset_top = 332.0
+offset_right = 1068.0
+offset_bottom = 372.0
+scale = Vector2(3.09181, 7.89094)
+
+[node name="PauseMenu" type="PanelContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("3_wc42c")
+
+[node name="PauseText" type="Label" parent="PauseMenu"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 91
+text = "paused"

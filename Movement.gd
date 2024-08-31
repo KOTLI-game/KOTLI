@@ -5,6 +5,8 @@ func _ready() -> void:
 
 const SPEED = 5.0
 const JUMP_VELOCITY = 4.5
+var is_paused = false
+var mouse_sens = 0.3
 
 func _physics_process(delta: float) -> void:
 	# Add the gravity.
@@ -17,8 +19,11 @@ func _physics_process(delta: float) -> void:
 		
 		
 	if Input.is_action_just_pressed("ui_cancel"):
+		is_paused = !is_paused
+	if is_paused:
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-
+	else:
+		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
 	var input_dir := Input.get_vector("move_left", "move_right", "move_forward", "move_backward")
@@ -32,8 +37,7 @@ func _physics_process(delta: float) -> void:
 
 	move_and_slide()
 
-var mouse_sens = 0.3
-
 func _input(event):  		
 	if event is InputEventMouseMotion:
-		rotate_y(deg_to_rad(-event.relative.x*mouse_sens))
+		if(!is_paused):
+			rotate_y(deg_to_rad(-event.relative.x*mouse_sens))
