@@ -1,0 +1,24 @@
+[gd_scene load_steps=3 format=3 uid="uid://1jarticplmi"]
+
+[ext_resource type="Script" path="res://item.gd" id="1_fgapx"]
+[ext_resource type="Texture2D" uid="uid://d4fp22hgutxhg" path="res://placeholderitem.png" id="1_s8bh2"]
+
+[node name="Item" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_fgapx")
+metadata/placeholderTexture1 = ExtResource("1_s8bh2")
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 0
+offset_right = 150.0
+offset_bottom = 100.0
+scale = Vector2(1, 0.44)
+
+[node name="TextureRect" type="TextureRect" parent="CenterContainer"]
+layout_mode = 2
+stretch_mode = 3

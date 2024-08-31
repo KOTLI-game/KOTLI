@@ -1,8 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://ona2mbdyx4fh"]
+[gd_scene load_steps=11 format=3 uid="uid://ona2mbdyx4fh"]
 
 [ext_resource type="Script" path="res://Movement.gd" id="1_bbqy7"]
 [ext_resource type="Texture2D" uid="uid://b4dp3x4fa3nd4" path="res://grass.jpg" id="1_chb6s"]
 [ext_resource type="Script" path="res://pause_menu.gd" id="3_wc42c"]
+[ext_resource type="PackedScene" uid="uid://1jarticplmi" path="res://item.tscn" id="4_qwg7a"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_fl3dy"]
 size = Vector3(60, 2, 60)
@@ -53,18 +54,14 @@ shape = SubResource("BoxShape3D_xsarf")
 gi_mode = 2
 mesh = SubResource("BoxMesh_84e1o")
 
-[node name="PanelContainer" type="PanelContainer" parent="."]
-visible = false
-offset_left = 1028.0
-offset_top = 332.0
-offset_right = 1068.0
-offset_bottom = 372.0
-scale = Vector2(3.09181, 7.89094)
-
 [node name="PauseMenu" type="PanelContainer" parent="."]
+visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -0.00012207
+offset_top = 3.05176e-05
+offset_right = 4.70471
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("3_wc42c")
@@ -74,3 +71,48 @@ layout_mode = 2
 size_flags_horizontal = 4
 theme_override_font_sizes/font_size = 91
 text = "paused"
+
+[node name="Inventory" type="PanelContainer" parent="."]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -124.0
+offset_top = -316.0
+offset_right = 192.295
+grow_horizontal = 0
+grow_vertical = 0
+scale = Vector2(0.392, 1)
+
+[node name="GridContainer" type="GridContainer" parent="Inventory"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/v_separation = 75
+columns = 2
+
+[node name="LeftSpacing" type="Label" parent="Inventory/GridContainer"]
+layout_mode = 2
+text = "                                     "
+
+[node name="RightSpacing" type="Label" parent="Inventory/GridContainer"]
+layout_mode = 2
+text = "                                     "
+
+[node name="Item" parent="Inventory/GridContainer" instance=ExtResource("4_qwg7a")]
+layout_mode = 2
+
+[node name="Item2" parent="Inventory/GridContainer" instance=ExtResource("4_qwg7a")]
+layout_mode = 2
+
+[node name="Item3" parent="Inventory/GridContainer" instance=ExtResource("4_qwg7a")]
+layout_mode = 2
+
+[node name="Item4" parent="Inventory/GridContainer" instance=ExtResource("4_qwg7a")]
+layout_mode = 2
+
+[node name="Item5" parent="Inventory/GridContainer" instance=ExtResource("4_qwg7a")]
+layout_mode = 2
+
+[node name="Item6" parent="Inventory/GridContainer" instance=ExtResource("4_qwg7a")]
+layout_mode = 2
