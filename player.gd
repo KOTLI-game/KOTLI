@@ -6,7 +6,7 @@ func _ready() -> void:
 const SPEED = 5.0
 const JUMP_VELOCITY = 4.5
 const SPRINT_MULTIPLIER = 2
-const FRICTION = 5
+const FRICTION = 8
 const controller_look_factor = 11#completely subjective
 var mouse_sens = 0.3
 var is_sprinting = false
@@ -16,9 +16,11 @@ func _physics_process(delta: float) -> void:
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	else:
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+		if get_health() == 0:
+			respawn()
 		if not is_on_floor():
 			velocity += get_gravity() * delta
-		if Input.is_action_just_pressed("move_jump") and is_on_floor():
+		if Input.is_action_pressed("move_jump") and is_on_floor():
 			velocity.y = JUMP_VELOCITY
 		var input_dir := Input.get_vector("move_left", "move_right", "move_forward", "move_backward")
 		var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
@@ -47,24 +49,40 @@ func _physics_process(delta: float) -> void:
 		
 		move_and_slide()
 
+func respawn() -> void:
+	set_health(100)
+	set_water(100)
+	set_hunger(100)
+	velocity = Vector3.ZERO
+	position = Vector3(0, 0.5, 0)
+	get_parent().find_child("DeathMenu").visible = false
+
 func _input(event):  		
 	if event is InputEventMouseMotion:
 		if(!is_paused()):
 			rotate_y(deg_to_rad(-event.relative.x*mouse_sens))
 			
 func consume_hunger(ammount: float) -> void:
-	(get_parent().find_children("Inventory")[0].get_child(1).get_child(1) as ProgressBar).value -= ammount
+	(get_parent().find_child("Inventory").get_child(1).get_child(1) as ProgressBar).value -= ammount
 func consume_water(ammount: float) -> void:
-	(get_parent().find_children("Inventory")[0].get_child(1).get_child(2) as ProgressBar).value -= ammount
+	(get_parent().find_child("Inventory").get_child(1).get_child(2) as ProgressBar).value -= ammount
 func consume_health(ammount: float) -> void:
-	(get_parent().find_children("Inventory")[0].get_child(1).get_child(0) as ProgressBar).value -= ammount
-	var v = get_parent().find_children("Vignette")[0]
-	v.set_vignette(Color.RED)
+	(get_parent().find_child("Inventory").get_child(1).get_child(0) as ProgressBar).value -= ammount
+	get_parent().find_child("Vignette").set_vignette(Color.RED)
+	if get_health() == 0:
+		get_parent().find_child("DeathMenu").visible = true
+		get_parent().find_child("PauseMenu").is_paused = true
 func get_water() -> float:
-	return (get_parent().find_children("Inventory")[0].get_child(1).get_child(2) as ProgressBar).value
+	return (get_parent().find_child("Inventory").get_child(1).get_child(2) as ProgressBar).value
 func get_hunger() -> float:
-	return (get_parent().find_children("Inventory")[0].get_child(1).get_child(1) as ProgressBar).value
+	return (get_parent().find_child("Inventory").get_child(1).get_child(1) as ProgressBar).value
 func get_health() -> float:
-	return (get_parent().find_children("Inventory")[0].get_child(1).get_child(0) as ProgressBar).value
+	return (get_parent().find_child("Inventory").get_child(1).get_child(0) as ProgressBar).value
+func set_water(ammount: float) -> void:
+	(get_parent().find_child("Inventory").get_child(1).get_child(2) as ProgressBar).value = ammount
+func set_hunger(ammount: float) -> void:
+	(get_parent().find_child("Inventory").get_child(1).get_child(1) as ProgressBar).value = ammount
+func set_health(ammount: float) -> void:
+	(get_parent().find_child("Inventory").get_child(1).get_child(0) as ProgressBar).value = ammount
 func is_paused() -> bool:
 	return get_parent().find_child("PauseMenu").is_paused

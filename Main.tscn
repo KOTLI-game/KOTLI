@@ -135,6 +135,25 @@ size_flags_horizontal = 4
 theme_override_font_sizes/font_size = 91
 text = "paused"
 
+[node name="DeathMenu" type="PanelContainer" parent="UI"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -0.00012207
+offset_top = 3.05176e-05
+offset_right = 4.70471
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="DeathText" type="Label" parent="UI/DeathMenu"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.717647, 0, 0, 1)
+theme_override_colors/font_shadow_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 91
+text = "You Died"
+
 [node name="Inventory" type="PanelContainer" parent="UI"]
 anchors_preset = 3
 anchor_left = 1.0
