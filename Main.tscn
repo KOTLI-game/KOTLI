@@ -1,6 +1,6 @@
 [gd_scene load_steps=19 format=3 uid="uid://ona2mbdyx4fh"]
 
-[ext_resource type="Script" path="res://Movement.gd" id="1_bbqy7"]
+[ext_resource type="Script" path="res://player.gd" id="1_bbqy7"]
 [ext_resource type="Texture2D" uid="uid://b4dp3x4fa3nd4" path="res://grass.jpg" id="1_chb6s"]
 [ext_resource type="Script" path="res://pause_menu.gd" id="3_wc42c"]
 [ext_resource type="PackedScene" uid="uid://1jarticplmi" path="res://item.tscn" id="4_qwg7a"]
@@ -24,6 +24,14 @@ albedo_color = Color(0.958128, 0, 0.247847, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_84e1o"]
 material = SubResource("StandardMaterial3D_g6b41")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_c1uvd"]
+shader = ExtResource("5_8oi5u")
+shader_parameter/inner_radius = 0.1
+shader_parameter/outer_radius = 1.0
+shader_parameter/vignette_strength = 1.0
+shader_parameter/dither_strength = 0.03
+shader_parameter/vignette_color = Color(0, 0, 0, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_v5105"]
 bg_color = Color(0.297093, 0.297093, 0.297093, 1)
@@ -67,14 +75,6 @@ corner_radius_top_right = 10
 corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_c1uvd"]
-shader = ExtResource("5_8oi5u")
-shader_parameter/inner_radius = 0.1
-shader_parameter/outer_radius = 1.0
-shader_parameter/vignette_strength = 1.0
-shader_parameter/dither_strength = 0.03
-shader_parameter/vignette_color = Color(0, 0, 0, 1)
-
 [node name="Root Node" type="Node"]
 
 [node name="Ground" type="StaticBody3D" parent="."]
@@ -106,7 +106,18 @@ shape = SubResource("BoxShape3D_xsarf")
 gi_mode = 2
 mesh = SubResource("BoxMesh_84e1o")
 
-[node name="PauseMenu" type="PanelContainer" parent="."]
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="Vignette" type="ColorRect" parent="UI"]
+material = SubResource("ShaderMaterial_c1uvd")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("6_ksw4x")
+
+[node name="PauseMenu" type="PanelContainer" parent="UI"]
 visible = false
 anchors_preset = 15
 anchor_right = 1.0
@@ -118,13 +129,13 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("3_wc42c")
 
-[node name="PauseText" type="Label" parent="PauseMenu"]
+[node name="PauseText" type="Label" parent="UI/PauseMenu"]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_font_sizes/font_size = 91
 text = "paused"
 
-[node name="Inventory" type="PanelContainer" parent="."]
+[node name="Inventory" type="PanelContainer" parent="UI"]
 anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
@@ -137,42 +148,42 @@ grow_horizontal = 0
 grow_vertical = 0
 scale = Vector2(0.392, 1)
 
-[node name="GridContainer" type="GridContainer" parent="Inventory"]
+[node name="GridContainer" type="GridContainer" parent="UI/Inventory"]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_constants/v_separation = 75
 columns = 2
 
-[node name="LeftSpacing" type="Label" parent="Inventory/GridContainer"]
+[node name="LeftSpacing" type="Label" parent="UI/Inventory/GridContainer"]
 layout_mode = 2
 text = "                                     "
 
-[node name="RightSpacing" type="Label" parent="Inventory/GridContainer"]
+[node name="RightSpacing" type="Label" parent="UI/Inventory/GridContainer"]
 layout_mode = 2
 text = "                                     "
 
-[node name="Item" parent="Inventory/GridContainer" instance=ExtResource("4_qwg7a")]
+[node name="Item" parent="UI/Inventory/GridContainer" instance=ExtResource("4_qwg7a")]
 layout_mode = 2
 
-[node name="Item2" parent="Inventory/GridContainer" instance=ExtResource("4_qwg7a")]
+[node name="Item2" parent="UI/Inventory/GridContainer" instance=ExtResource("4_qwg7a")]
 layout_mode = 2
 
-[node name="Item3" parent="Inventory/GridContainer" instance=ExtResource("4_qwg7a")]
+[node name="Item3" parent="UI/Inventory/GridContainer" instance=ExtResource("4_qwg7a")]
 layout_mode = 2
 
-[node name="Item4" parent="Inventory/GridContainer" instance=ExtResource("4_qwg7a")]
+[node name="Item4" parent="UI/Inventory/GridContainer" instance=ExtResource("4_qwg7a")]
 layout_mode = 2
 
-[node name="Item5" parent="Inventory/GridContainer" instance=ExtResource("4_qwg7a")]
+[node name="Item5" parent="UI/Inventory/GridContainer" instance=ExtResource("4_qwg7a")]
 layout_mode = 2
 
-[node name="Item6" parent="Inventory/GridContainer" instance=ExtResource("4_qwg7a")]
+[node name="Item6" parent="UI/Inventory/GridContainer" instance=ExtResource("4_qwg7a")]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Inventory"]
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/Inventory"]
 layout_mode = 2
 
-[node name="ProgressBar" type="ProgressBar" parent="Inventory/VBoxContainer"]
+[node name="ProgressBar" type="ProgressBar" parent="UI/Inventory/VBoxContainer"]
 custom_minimum_size = Vector2(0, 10)
 layout_mode = 2
 theme_override_styles/background = SubResource("StyleBoxFlat_v5105")
@@ -181,7 +192,7 @@ value = 100.0
 show_percentage = false
 script = SubResource("GDScript_ggb4d")
 
-[node name="ProgressBar2" type="ProgressBar" parent="Inventory/VBoxContainer"]
+[node name="ProgressBar2" type="ProgressBar" parent="UI/Inventory/VBoxContainer"]
 custom_minimum_size = Vector2(0, 10)
 layout_mode = 2
 theme_override_styles/background = SubResource("StyleBoxFlat_v5105")
@@ -190,7 +201,7 @@ value = 100.0
 show_percentage = false
 script = SubResource("GDScript_ggb4d")
 
-[node name="ProgressBar3" type="ProgressBar" parent="Inventory/VBoxContainer"]
+[node name="ProgressBar3" type="ProgressBar" parent="UI/Inventory/VBoxContainer"]
 custom_minimum_size = Vector2(0, 10)
 layout_mode = 2
 theme_override_styles/background = SubResource("StyleBoxFlat_v5105")
@@ -198,14 +209,3 @@ theme_override_styles/fill = SubResource("StyleBoxFlat_po7mk")
 value = 100.0
 show_percentage = false
 script = SubResource("GDScript_ggb4d")
-
-[node name="Shaders" type="CanvasLayer" parent="."]
-
-[node name="Vignette" type="ColorRect" parent="Shaders"]
-material = SubResource("ShaderMaterial_c1uvd")
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-script = ExtResource("6_ksw4x")

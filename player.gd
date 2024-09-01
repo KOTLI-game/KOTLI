@@ -6,6 +6,7 @@ func _ready() -> void:
 const SPEED = 5.0
 const JUMP_VELOCITY = 4.5
 const SPRINT_MULTIPLIER = 2
+const FRICTION = 5
 
 var is_paused = false
 var mouse_sens = 0.3
@@ -22,7 +23,6 @@ func _physics_process(delta: float) -> void:
 			velocity += get_gravity() * delta
 		if Input.is_action_just_pressed("move_jump") and is_on_floor():
 			velocity.y = JUMP_VELOCITY
-			consume_health(1) 
 		var input_dir := Input.get_vector("move_left", "move_right", "move_forward", "move_backward")
 		var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 		var speed = SPEED
@@ -33,8 +33,8 @@ func _physics_process(delta: float) -> void:
 			velocity.x = direction.x * speed
 			velocity.z = direction.z * speed
 		else:
-			velocity.x = move_toward(velocity.x, 0, speed)
-			velocity.z = move_toward(velocity.z, 0, speed)
+			velocity.x = move_toward(velocity.x, 0, FRICTION * delta)
+			velocity.z = move_toward(velocity.z, 0, FRICTION * delta)
 		
 		consume_hunger(min(input_dir.length_squared(), 1) * speed * delta)
 		if get_hunger() == 0:
@@ -54,7 +54,7 @@ func consume_water(ammount: float) -> void:
 	(get_parent().find_children("Inventory")[0].get_child(1).get_child(2) as ProgressBar).value -= ammount
 func consume_health(ammount: float) -> void:
 	(get_parent().find_children("Inventory")[0].get_child(1).get_child(0) as ProgressBar).value -= ammount
-	var v = get_parent().find_children("Shaders")[0].find_children("Vignette")[0]#.get_script() as Vignette
+	var v = get_parent().find_children("Vignette")[0]#.get_script() as Vignette
 	v.set_vignette(Color.RED)
 func get_water() -> float:
 	return (get_parent().find_children("Inventory")[0].get_child(1).get_child(2) as ProgressBar).value
