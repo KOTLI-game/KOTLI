@@ -1,3 +1,4 @@
+class_name PauseMenu
 extends PanelContainer
 
 
@@ -9,8 +10,10 @@ var is_paused = false
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
-	if Input.is_action_just_pressed("ui_cancel"):
+	if Input.is_action_just_pressed("pause_game"):
 		is_paused = !is_paused
+	elif is_paused and Input.is_action_just_pressed("menu_exit"):
+		is_paused = false
 	if is_paused:
 		visible = true
 	else:
