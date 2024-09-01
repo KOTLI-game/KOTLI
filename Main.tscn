@@ -1,9 +1,11 @@
-[gd_scene load_steps=11 format=3 uid="uid://ona2mbdyx4fh"]
+[gd_scene load_steps=19 format=3 uid="uid://ona2mbdyx4fh"]
 
 [ext_resource type="Script" path="res://Movement.gd" id="1_bbqy7"]
 [ext_resource type="Texture2D" uid="uid://b4dp3x4fa3nd4" path="res://grass.jpg" id="1_chb6s"]
 [ext_resource type="Script" path="res://pause_menu.gd" id="3_wc42c"]
 [ext_resource type="PackedScene" uid="uid://1jarticplmi" path="res://item.tscn" id="4_qwg7a"]
+[ext_resource type="Shader" path="res://Vignette.gdshader" id="5_8oi5u"]
+[ext_resource type="Script" path="res://vignette.gd" id="6_ksw4x"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_fl3dy"]
 size = Vector3(60, 2, 60)
@@ -22,6 +24,56 @@ albedo_color = Color(0.958128, 0, 0.247847, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_84e1o"]
 material = SubResource("StandardMaterial3D_g6b41")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_v5105"]
+bg_color = Color(0.297093, 0.297093, 0.297093, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_x1emn"]
+bg_color = Color(0.84, 0, 0.21, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="GDScript" id="GDScript_ggb4d"]
+script/source = "extends ProgressBar
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	pass
+"
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mswfd"]
+bg_color = Color(0.535575, 0.215178, 0.0150458, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_po7mk"]
+bg_color = Color(0.0784314, 0.247059, 1, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_c1uvd"]
+shader = ExtResource("5_8oi5u")
+shader_parameter/inner_radius = 0.1
+shader_parameter/outer_radius = 1.0
+shader_parameter/vignette_strength = 1.0
+shader_parameter/dither_strength = 0.03
+shader_parameter/vignette_color = Color(0, 0, 0, 1)
 
 [node name="Root Node" type="Node"]
 
@@ -116,3 +168,44 @@ layout_mode = 2
 
 [node name="Item6" parent="Inventory/GridContainer" instance=ExtResource("4_qwg7a")]
 layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Inventory"]
+layout_mode = 2
+
+[node name="ProgressBar" type="ProgressBar" parent="Inventory/VBoxContainer"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_v5105")
+theme_override_styles/fill = SubResource("StyleBoxFlat_x1emn")
+value = 100.0
+show_percentage = false
+script = SubResource("GDScript_ggb4d")
+
+[node name="ProgressBar2" type="ProgressBar" parent="Inventory/VBoxContainer"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_v5105")
+theme_override_styles/fill = SubResource("StyleBoxFlat_mswfd")
+value = 100.0
+show_percentage = false
+script = SubResource("GDScript_ggb4d")
+
+[node name="ProgressBar3" type="ProgressBar" parent="Inventory/VBoxContainer"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_v5105")
+theme_override_styles/fill = SubResource("StyleBoxFlat_po7mk")
+value = 100.0
+show_percentage = false
+script = SubResource("GDScript_ggb4d")
+
+[node name="Shaders" type="CanvasLayer" parent="."]
+
+[node name="Vignette" type="ColorRect" parent="Shaders"]
+material = SubResource("ShaderMaterial_c1uvd")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("6_ksw4x")

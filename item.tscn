@@ -21,4 +21,5 @@ scale = Vector2(1, 0.44)
 
 [node name="TextureRect" type="TextureRect" parent="CenterContainer"]
 layout_mode = 2
+texture = ExtResource("1_s8bh2")
 stretch_mode = 3
