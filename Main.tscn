@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://ona2mbdyx4fh"]
+[gd_scene load_steps=18 format=3 uid="uid://ona2mbdyx4fh"]
 
 [ext_resource type="Script" path="res://player.gd" id="1_bbqy7"]
 [ext_resource type="Texture2D" uid="uid://b4dp3x4fa3nd4" path="res://grass.jpg" id="1_chb6s"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://1jarticplmi" path="res://item.tscn" id="4_qwg7a"]
 [ext_resource type="Shader" path="res://Vignette.gdshader" id="5_8oi5u"]
 [ext_resource type="Script" path="res://vignette.gd" id="6_ksw4x"]
+[ext_resource type="PackedScene" uid="uid://di2kxib38wf6d" path="res://assets/knight.blend" id="7_en5qr"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_fl3dy"]
 size = Vector3(60, 2, 60)
@@ -18,12 +19,7 @@ uv1_scale = Vector3(10.09, 10.09, 10.09)
 size = Vector3(60, 2, 60)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_xsarf"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_g6b41"]
-albedo_color = Color(0.958128, 0, 0.247847, 1)
-
-[sub_resource type="BoxMesh" id="BoxMesh_84e1o"]
-material = SubResource("StandardMaterial3D_g6b41")
+size = Vector3(0.653564, 2.54578, 1.12476)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_c1uvd"]
 shader = ExtResource("5_8oi5u")
@@ -100,11 +96,11 @@ script = ExtResource("1_bbqy7")
 transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 2.255, 3.165)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00671387, 0.772888, 0.00842285)
 shape = SubResource("BoxShape3D_xsarf")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Player"]
-gi_mode = 2
-mesh = SubResource("BoxMesh_84e1o")
+[node name="knight" parent="Player" instance=ExtResource("7_en5qr")]
+transform = Transform3D(-1.31134e-08, 0, 0.3, 0, 0.3, 0, -0.3, 0, -1.31134e-08, 0, 1.786, 0)
 
 [node name="UI" type="CanvasLayer" parent="."]
 
