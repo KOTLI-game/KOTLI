@@ -43,7 +43,7 @@ func _physics_process(delta: float) -> void:
 		if get_hunger() == 0:
 			consume_health(delta)
 		if get_water() == 0:
-			consume_health(delta)
+			consume_health(delta * 100)
 		
 		rotate_y(deg_to_rad((Input.get_action_strength("look_left") - Input.get_action_strength("look_right")) * mouse_sens * controller_look_factor))
 		
@@ -63,26 +63,22 @@ func _input(event):
 			rotate_y(deg_to_rad(-event.relative.x*mouse_sens))
 			
 func consume_hunger(ammount: float) -> void:
-	(get_parent().find_child("Inventory").get_child(1).get_child(1) as ProgressBar).value -= ammount
+	get_parent().consume_hunger(ammount)
 func consume_water(ammount: float) -> void:
-	(get_parent().find_child("Inventory").get_child(1).get_child(2) as ProgressBar).value -= ammount
+	get_parent().consume_water(ammount)
 func consume_health(ammount: float) -> void:
-	(get_parent().find_child("Inventory").get_child(1).get_child(0) as ProgressBar).value -= ammount
-	get_parent().find_child("Vignette").set_vignette(Color.RED)
-	if get_health() == 0:
-		get_parent().find_child("DeathMenu").visible = true
-		get_parent().find_child("PauseMenu").is_paused = true
+	get_parent().consume_health(ammount)
 func get_water() -> float:
-	return (get_parent().find_child("Inventory").get_child(1).get_child(2) as ProgressBar).value
+	return get_parent().get_water()
 func get_hunger() -> float:
-	return (get_parent().find_child("Inventory").get_child(1).get_child(1) as ProgressBar).value
+	return get_parent().get_hunger()
 func get_health() -> float:
-	return (get_parent().find_child("Inventory").get_child(1).get_child(0) as ProgressBar).value
+	return get_parent().get_health()
 func set_water(ammount: float) -> void:
-	(get_parent().find_child("Inventory").get_child(1).get_child(2) as ProgressBar).value = ammount
+	get_parent().set_water(ammount)
 func set_hunger(ammount: float) -> void:
-	(get_parent().find_child("Inventory").get_child(1).get_child(1) as ProgressBar).value = ammount
+	get_parent().set_hunger(ammount)
 func set_health(ammount: float) -> void:
-	(get_parent().find_child("Inventory").get_child(1).get_child(0) as ProgressBar).value = ammount
+	get_parent().set_health(ammount)
 func is_paused() -> bool:
-	return get_parent().find_child("PauseMenu").is_paused
+	return get_parent().is_paused()

@@ -10,5 +10,5 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	(material as ShaderMaterial).set_shader_parameter("vignette_color", lerp((material as ShaderMaterial).get_shader_parameter("vignette_color"), Color(0,0,0), delta))
 
-func set_vignette(color: Color) -> void:
-	(material as ShaderMaterial).set_shader_parameter("vignette_color", color)
+func set_vignette(vignetteColor: Color) -> void:
+	(material as ShaderMaterial).set_shader_parameter("vignette_color", vignetteColor)

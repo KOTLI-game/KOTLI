@@ -1,12 +1,13 @@
-[gd_scene load_steps=18 format=3 uid="uid://ona2mbdyx4fh"]
+[gd_scene load_steps=19 format=3 uid="uid://ona2mbdyx4fh"]
 
 [ext_resource type="Script" path="res://player.gd" id="1_bbqy7"]
 [ext_resource type="Texture2D" uid="uid://b4dp3x4fa3nd4" path="res://grass.jpg" id="1_chb6s"]
-[ext_resource type="Script" path="res://pause_menu.gd" id="3_wc42c"]
+[ext_resource type="Script" path="res://main.gd" id="1_x322d"]
 [ext_resource type="PackedScene" uid="uid://1jarticplmi" path="res://item.tscn" id="4_qwg7a"]
 [ext_resource type="Shader" path="res://Vignette.gdshader" id="5_8oi5u"]
 [ext_resource type="Script" path="res://vignette.gd" id="6_ksw4x"]
 [ext_resource type="PackedScene" uid="uid://di2kxib38wf6d" path="res://assets/knight.blend" id="7_en5qr"]
+[ext_resource type="Script" path="res://button.gd" id="8_0c82m"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_fl3dy"]
 size = Vector3(60, 2, 60)
@@ -53,7 +54,7 @@ func _ready() -> void:
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	pass
 "
 
@@ -72,6 +73,7 @@ corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 
 [node name="Root Node" type="Node"]
+script = ExtResource("1_x322d")
 
 [node name="Ground" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
@@ -123,7 +125,6 @@ offset_top = 3.05176e-05
 offset_right = 4.70471
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("3_wc42c")
 
 [node name="PauseText" type="Label" parent="UI/PauseMenu"]
 layout_mode = 2
@@ -224,3 +225,44 @@ theme_override_styles/fill = SubResource("StyleBoxFlat_po7mk")
 value = 100.0
 show_percentage = false
 script = SubResource("GDScript_ggb4d")
+
+[node name="MainMenu" type="CanvasLayer" parent="UI"]
+
+[node name="ColorRect" type="ColorRect" parent="UI/MainMenu"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.18359, 0.18359, 0.18359, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/MainMenu"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -351.0
+offset_top = -38.5
+offset_right = 351.0
+offset_bottom = 38.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="UI/MainMenu/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.61451, 0, 0, 1)
+theme_override_colors/font_shadow_color = Color(0.425658, 0.0951015, 0, 1)
+theme_override_font_sizes/font_size = 56
+text = "Knights Of The Lost Island"
+
+[node name="CenterContainer" type="CenterContainer" parent="UI/MainMenu/VBoxContainer"]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="UI/MainMenu/VBoxContainer/CenterContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.615686, 0, 0, 1)
+theme_override_font_sizes/font_size = 33
+action_mode = 0
+text = "play"
+script = ExtResource("8_0c82m")
