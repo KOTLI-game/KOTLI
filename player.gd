@@ -1,3 +1,4 @@
+class_name Player
 extends CharacterBody3D
 
 func _ready() -> void:
@@ -38,15 +39,14 @@ func _physics_process(delta: float) -> void:
 		else:
 			velocity.x = move_toward(velocity.x, 0, FRICTION * delta)
 			velocity.z = move_toward(velocity.z, 0, FRICTION * delta)
-		
+
 		consume_hunger(min(input_dir.length_squared(), 1) * speed * delta)
 		if get_hunger() == 0:
 			consume_health(delta)
 		if get_water() == 0:
-			consume_health(delta * 100)
-		
+			consume_health(delta)
+
 		rotate_y(deg_to_rad((Input.get_action_strength("look_left") - Input.get_action_strength("look_right")) * mouse_sens * controller_look_factor))
-		
 		move_and_slide()
 
 func respawn() -> void:

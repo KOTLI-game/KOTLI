@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://ona2mbdyx4fh"]
+[gd_scene load_steps=20 format=3 uid="uid://ona2mbdyx4fh"]
 
 [ext_resource type="Script" path="res://player.gd" id="1_bbqy7"]
 [ext_resource type="Texture2D" uid="uid://b4dp3x4fa3nd4" path="res://grass.jpg" id="1_chb6s"]
@@ -7,7 +7,8 @@
 [ext_resource type="Shader" path="res://Vignette.gdshader" id="5_8oi5u"]
 [ext_resource type="Script" path="res://vignette.gd" id="6_ksw4x"]
 [ext_resource type="PackedScene" uid="uid://di2kxib38wf6d" path="res://assets/knight.blend" id="7_en5qr"]
-[ext_resource type="Script" path="res://button.gd" id="8_0c82m"]
+[ext_resource type="Script" path="res://play_button.gd" id="8_0c82m"]
+[ext_resource type="Script" path="res://settings_button.gd" id="9_1jy1g"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_fl3dy"]
 size = Vector3(60, 2, 60)
@@ -256,13 +257,76 @@ theme_override_colors/font_shadow_color = Color(0.425658, 0.0951015, 0, 1)
 theme_override_font_sizes/font_size = 56
 text = "Knights Of The Lost Island"
 
-[node name="CenterContainer" type="CenterContainer" parent="UI/MainMenu/VBoxContainer"]
+[node name="PlayButton" type="CenterContainer" parent="UI/MainMenu/VBoxContainer"]
 layout_mode = 2
 
-[node name="Button" type="Button" parent="UI/MainMenu/VBoxContainer/CenterContainer"]
+[node name="Button" type="Button" parent="UI/MainMenu/VBoxContainer/PlayButton"]
 layout_mode = 2
+theme_override_colors/font_focus_color = Color(0.615686, 0, 0, 1)
 theme_override_colors/font_color = Color(0.615686, 0, 0, 1)
 theme_override_font_sizes/font_size = 33
 action_mode = 0
 text = "play"
 script = ExtResource("8_0c82m")
+
+[node name="SettingsButton" type="CenterContainer" parent="UI/MainMenu/VBoxContainer"]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="UI/MainMenu/VBoxContainer/SettingsButton"]
+layout_mode = 2
+theme_override_colors/font_focus_color = Color(0.615686, 0, 0, 1)
+theme_override_colors/font_color = Color(0.615686, 0, 0, 1)
+theme_override_font_sizes/font_size = 33
+action_mode = 0
+text = "settings"
+script = ExtResource("9_1jy1g")
+
+[node name="Settings" type="CanvasLayer" parent="UI"]
+visible = false
+
+[node name="ColorRect" type="ColorRect" parent="UI/Settings"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.18359, 0.18359, 0.18359, 1)
+
+[node name="CenterContainer" type="CenterContainer" parent="UI/Settings"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -62.5
+offset_right = 62.5
+offset_bottom = 62.0
+grow_horizontal = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+
+[node name="TabContainer" type="TabContainer" parent="UI/Settings/CenterContainer"]
+layout_mode = 2
+current_tab = 0
+clip_tabs = false
+
+[node name="General" type="VBoxContainer" parent="UI/Settings/CenterContainer/TabContainer"]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="FullscreenToggle" type="CheckButton" parent="UI/Settings/CenterContainer/TabContainer/General"]
+layout_mode = 2
+text = "fullscreen"
+
+[node name="Controls" type="VBoxContainer" parent="UI/Settings/CenterContainer/TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="Label" type="Label" parent="UI/Settings/CenterContainer/TabContainer/Controls"]
+layout_mode = 2
+text = "mouse sensitivity"
+
+[node name="SensitivitySlider" type="HSlider" parent="UI/Settings/CenterContainer/TabContainer/Controls"]
+layout_mode = 2
+value = 30.0
+tick_count = 5
+ticks_on_borders = true
